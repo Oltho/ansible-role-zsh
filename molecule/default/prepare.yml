@@ -5,6 +5,7 @@
   tasks:
     - name: "create test users"
       become: yes
+      become_method: su
       user:
         name: "{{ item }}"
         home: "/home/{{ item  }}"
