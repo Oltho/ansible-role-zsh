@@ -1,0 +1,82 @@
+---
+# tasks file for zsh
+- name: "install python package"
+  package:
+    name:
+      - zsh
+      - git
+    state: "present"
+  tags:
+    - install
+
+- name: "install oh-my-zsh"
+  become: yes
+  become_user: "{{ user.username }}"
+  git:
+    repo: "https://github.com/robbyrussell/oh-my-zsh.git"
+    dest: "~/.oh-my-zsh"
+    depth: 1
+  tags:
+    - install
+
+- name: "Back up existing ~/.zshrc"
+  become: yes
+  become_user: "{{ user.username }}"
+  shell: if [ -f ~/.zshrc ]; then mv ~/.zshrc ~/.zshrc.bak ; fi
+  tags:
+    - configure
+
+- name: "Back up existing ~/.zsh_aliases"
+  become: yes
+  become_user: "{{ user.username }}"
+  shell: if [ -f ~/.zsh_aliases ]; then mv ~/.zsh_aliases ~/.zsh_aliases.bak ; fi
+  tags:
+    - configure
+
+- name: "generate .zshrc"
+  become: yes
+  become_user: "{{ user.username }}"
+  template:
+    src: ".zshrc.j2"
+    dest: "~/.zshrc"
+    mode: "0644"
+  tags:
+    - configure
+
+- name: "copy .zsh_aliases"
+  become: yes
+  become_user: "{{ user.username }}"
+  copy:
+    src: ".zsh_aliases"
+    dest: "~/.zsh_aliases"
+    mode: "0644"
+  tags:
+    - configure
+
+
+- name: "install powerlevel10k"
+  become: yes
+  become_user: "{{ user.username }}"
+  git:
+    repo: "https://github.com/romkatv/powerlevel10k.git"
+    dest: "~/.oh-my-zsh/custom/themes/powerlevel10k"
+    depth: 1
+  tags:
+    - install
+
+
+- name: "Get zsh path"
+  become: yes
+  become_user: "{{ user.username }}"
+  command: "which zsh"
+  register: "zsh_path"
+  tags:
+    - configure
+
+- name: "change default shell"
+  become: yes
+  user:
+    name: "{{ user.username }}"
+    shell: "{{ zsh_path.stdout }}"
+  tags:
+    - configure

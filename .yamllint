@@ -1,0 +1,25 @@
+---
+# Based on ansible-lint config
+extends: default
+
+rules:
+  braces: enable
+  brackets: enable
+  colons: enable
+  commas: enable
+  comments: enable
+  comments-indentation: enable
+  document-start: enable
+  empty-lines: enable
+  hyphens: enable
+  indentation:
+    spaces: 2
+    indent-sequences: true
+  key-duplicates: enable
+  line-length:
+    max: 100
+  new-line-at-end-of-file: enable
+  new-lines:
+    type: unix
+  trailing-spaces: enable
+  truthy: disable

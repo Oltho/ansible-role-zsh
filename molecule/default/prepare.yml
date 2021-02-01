@@ -1,0 +1,14 @@
+---
+- name: "Prepare"
+  hosts: "all"
+
+  tasks:
+    - name: "create test users"
+      become: yes
+      user:
+        name: "{{ item }}"
+        home: "/home/{{ item  }}"
+        createhome: yes
+      with_items:
+        - "test_usr1"
+        - "test_usr2"

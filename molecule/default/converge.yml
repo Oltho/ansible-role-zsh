@@ -1,0 +1,17 @@
+---
+- name: "Converge"
+  hosts: "all"
+  roles:
+    - role: "zsh"
+      user:
+        username: "test_usr1"
+
+    - role: "zsh"
+      user:
+        username: "test_usr2"
+        oh_my_zsh:
+          theme: "custom_usr2_theme"
+          plugins:
+            - "git"
+            - "usr2_plugin_1"
+            - "usr2_plugin_2"
